@@ -14,9 +14,7 @@ const Course = ({course}) => {
   }
 
   const Content = ({content}) => {
-    //console.log(course.parts)
-    //const mapsresult = course.parts.map(part=>part.name)
-    //console.log(mapsresult)
+  
     return(
       <div>
         {content.map(part=>
@@ -27,12 +25,7 @@ const Course = ({course}) => {
   }
 
   const Total = ({parts}) => {
-    let total=0;
-    parts.map((part) => {
-      total=total+part.exercises
-      //console.log(total)
-    })
-    //console.log(total)
+    const total = parts.reduce((sum,order) => sum+order.exercises,0)
     return (
       <strong>Total of {total} exercises</strong>
     )
