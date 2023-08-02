@@ -1,8 +1,24 @@
 import { cloneElement, useState } from 'react'
 
-const Contact = ({contact}) => <p>{contact.name} {contact.number}</p> 
+const PersonForm = ({handleSubmit,nameValue,nameChangeHandle,numberValue,numberChangeHandle}) => (
+  <form onSubmit={handleSubmit}>
+    <div> name: <input value={nameValue} onChange={nameChangeHandle} /> </div>
+    <div> number: <input value={numberValue} onChange={numberChangeHandle} /> </div>
+    <div>
+      <button type="submit">add</button>
+    </div>
+  </form>
+)
+const Contact = ({contact}) => <p>{contact.name} {contact.number}</p>
+const Persons= ({data}) =>(
+  <div>{data.map(filteredPerson=>
+    <Contact key={filteredPerson.id} contact={filteredPerson}/>
+  )}</div>
+)
+const Filter = ({inputValue,inputHandle}) => <div> filter shown with: <input value={inputValue} onChange={inputHandle} /> </div>
 
 const App = () => {
+
   const [persons, setPersons] = useState([
     { name: 'Arto Hellas', number: '040-123456', id: 1 },
     { name: 'Ada Lovelace', number: '39-44-5323523', id: 2 },
@@ -33,34 +49,25 @@ const App = () => {
 
   }
 
-  const handleNameChange = (event) => {
-    setNewName(event.target.value)
-  }
-  const handleNumberChange = (event) => {
-    setNewNumber(event.target.value)
-  }
-
-  const handleFilterChange = (event) => {
-    setFilter(event.target.value)
-  }
+  const handleNameChange = (event) => {setNewName(event.target.value)}
+  const handleNumberChange = (event) => {setNewNumber(event.target.value)}
+  const handleFilterChange = (event) => {setFilter(event.target.value)}
 
   return (
     <div>
       <h2>Phonebook</h2>
-      <div> filter shown with: <input value={filter} onChange={handleFilterChange} /> </div>
+      < Filter inputValue={filter} inputHandle={handleFilterChange} />
       <h3>Add a new</h3>
-      <form onSubmit={addPerson}>
-        <div> name: <input value={newName} onChange={handleNameChange} /> </div>
-        <div> number: <input value={newNumber} onChange={handleNumberChange} /> </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+      < PersonForm
+        handleSubmit={addPerson}
+        nameValue={newName}
+        nameChangeHandle={handleNameChange}
+        numberValue={newNumber}
+        numberChangeHandle={handleNumberChange}
+      />
       <h3>Numbers</h3>
-      <div>{filteredPersons.map(filteredPerson=>
-          <Contact key={filteredPerson.id} contact={filteredPerson}/>
-        )}</div>
-    </div>
+      < Persons data={filteredPersons} />
+  </div>
   )
 }
 
