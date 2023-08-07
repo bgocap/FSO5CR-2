@@ -11,12 +11,15 @@ const PersonForm = ({handleSubmit,nameValue,nameChangeHandle,numberValue,numberC
     </div>
   </form>
 )
-const Contact = ({contact}) => <p>{contact.name} {contact.number}</p>
-const Persons= ({data}) =>(
+
+const Persons= ({data,selectId}) =>{
+  return(
   <div>{data.map(filteredPerson=>
-    <Contact key={filteredPerson.id} contact={filteredPerson}/>
+    <p key={filteredPerson.id} > {filteredPerson.name} {filteredPerson.number} <button onClick={()=>selectId(filteredPerson.id,filteredPerson.name)}> delete</button> </p>
   )}</div>
-)
+  )
+
+}
 const Filter = ({inputValue,inputHandle}) => <div> filter shown with: <input value={inputValue} onChange={inputHandle} /> </div>
 
 const App = () => {
@@ -47,6 +50,14 @@ const App = () => {
 
   }
 
+  const handleDeletePerson=(id,name)=>{
+    if(window.confirm(`Are you sure you want to delete ${name} from the phonebook?`)){
+      personService.deleteOne(id)
+      const updatedPersons=persons.filter(notDeletedPersons=>notDeletedPersons.id!==id)
+      setPersons(updatedPersons)
+    }
+  }
+
   const handleNameChange = (event) => {setNewName(event.target.value)}
   const handleNumberChange = (event) => {setNewNumber(event.target.value)}
   const handleFilterChange = (event) => {setFilter(event.target.value)}
@@ -64,7 +75,7 @@ const App = () => {
         numberChangeHandle={handleNumberChange}
       />
       <h3>Numbers</h3>
-      < Persons data={filteredPersons} />
+      < Persons data={filteredPersons} selectId={handleDeletePerson}  />
   </div>
   )
 }
