@@ -38,13 +38,21 @@ const App = () => {
   const addPerson = (event) => {
 
     event.preventDefault()
-    const newId=persons.reduce((id,item)=>id=item.id+1,0)
-    const personObject = {name:newName, number:newNumber, id:newId}
- 
-    persons.some(person=>person.name===newName)?
-    alert(`${newName} is already added to phonebook`)
-    :personService.create(personObject).then(returnedPerson=>setPersons(persons.concat(returnedPerson)))
 
+    if(person=>person.name===newName){
+      if(window.confirm(`${newName} is already in the phonebook, do you want to replace with new number?`)){
+        const personToUpdate = persons.find(n => n.name === newName)
+        const updatedPerson = {...personToUpdate, number:newNumber}
+        personService.update(updatedPerson.id,updatedPerson).then(returnedPerson => {
+          setPersons(persons.map(person => person.name !== newName ? person : returnedPerson))
+        })
+      }
+    }else{
+      const newId=persons.reduce((id,item)=>id=item.id+1,0)
+      const personObject = {name:newName, number:newNumber, id:newId}
+      personService.create(personObject).then(returnedPerson=>setPersons(persons.concat(returnedPerson)))
+    }
+    
     setNewName('')
     setNewNumber('')
 
