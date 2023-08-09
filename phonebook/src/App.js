@@ -78,6 +78,12 @@ const App = () => {
             setnotificationMessage(newNotificationMessage)
             setTimeout(() => {setnotificationMessage({text:null,type:null})}, 5000)
           })
+          .catch(error=>{
+            console.log(error)
+            const newNotificationMessage= {text:`Information of ${newName} has already been removed from the server`,type:'error'}
+            setnotificationMessage(newNotificationMessage)
+            setTimeout(() => {setnotificationMessage({text:null,type:null})}, 5000)
+          })
       }
     }else{
       const newId=persons.reduce((id,item)=>id=item.id+1,0)
