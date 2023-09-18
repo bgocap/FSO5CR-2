@@ -5,6 +5,7 @@ Exercises are commits. Done **20** out of *20*
 </br></br>
 
 <h4>Courseinfo App:</h4>
+
 ```
 📦courseinfo
  ┣ 📂build (.gitignore)
@@ -29,6 +30,7 @@ Exercises are commits. Done **20** out of *20*
 ```
 
 <h4>Data for countries:</h4>
+
 ```
 📦data4countries
  ┣ 📂build (.gitignore)
@@ -52,6 +54,7 @@ Exercises are commits. Done **20** out of *20*
 ```
 
 <h4>Phonebook:</h4>
+
 ```
 📦phonebook
  ┣ 📂build (.gitignore)
